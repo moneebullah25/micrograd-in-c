@@ -23,6 +23,7 @@ extern "C"
         void (*backward)(struct Value *);
         struct Value *_prev[2];
         int num_prev;
+        int index;
     } Value;
 
     Value *ValueNew(double data);
@@ -49,4 +50,4 @@ extern "C"
 }
 #endif /* __cplusplus */
 
-#endif /* _C_ENGINE_HEADER_ *
+#endif /* _C_ENGINE_HEADER_ */

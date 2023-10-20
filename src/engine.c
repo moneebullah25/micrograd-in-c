@@ -1,4 +1,4 @@
-#include "../includes/engine.h";
+#include "../includes/engine.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -90,36 +90,36 @@ void ValueTanhBackward(Value *v1)
     v1->_prev[0]->grad += (1 - pow(v1->data, 2)) * v1->grad;
 }
 
-void TopologicalSort(Value *self, bool *visited, Value **topo, int *index)
+void TopologicalSort(Value *v1, bool *visited, Value **topo, int *index)
 {
-    visited[self->index] = true;
+    visited[v1->index] = true;
 
-    for (int i = 0; i < self->_prev_size; ++i)
+    for (int i = 0; i < v1->num_prev; ++i)
     {
-        if (!visited[self->_prev[i].index])
+        if (!visited[v1->_prev[i]->index])
         {
-            TopologicalSort(&(self->_prev[i]), visited, topo, index);
+            TopologicalSort(v1->_prev[i], visited, topo, index);
         }
     }
 
-    topo[(*index)++] = self;
+    topo[(*index)++] = v1;
 }
 
-void ValueBackward(Value *self)
+void ValueBackward(Value *v1)
 {
-    bool visited[self->_prev_size];
-    for (int i = 0; i < self->_prev_size; ++i)
+    bool visited[v1->num_prev];
+    for (int i = 0; i < v1->num_prev; ++i)
     {
         visited[i] = false;
     }
-    Value *topo[self->_prev_size];
+    Value *topo[v1->num_prev];
     int index = 0;
-    TopologicalSort(self, visited, topo, &index);
-    if (self->backward != NULL)
+    TopologicalSort(v1, visited, topo, &index);
+    if (v1->backward != NULL)
     {
-        self->backward(self);
+        v1->backward(v1);
     }
-    for (int i = self->_prev_size - 1; i >= 0; --i)
+    for (int i = v1->num_prev - 1; i >= 0; --i)
     {
         ValueBackward(&(topo[i]));
     }
