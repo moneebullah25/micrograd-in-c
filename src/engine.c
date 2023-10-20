@@ -121,7 +121,7 @@ void ValueBackward(Value *v1)
     }
     for (int i = v1->num_prev - 1; i >= 0; --i)
     {
-        ValueBackward(&(topo[i]));
+        ValueBackward(topo[i]);
     }
 }
 
@@ -153,7 +153,7 @@ Value *ValueReverseMultiply(const Value *v1, const Value *v2)
 
 Value *ValueDivide(const Value *v1, const Value *v2)
 {
-    Value *result = ValueMultiply(v1, ValuePower(v2, -1.0));
+    Value *result = ValueMultiply(v1, ValuePower(v2, ValueNew(-1.0)));
     return result;
 }
 
