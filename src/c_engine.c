@@ -1,4 +1,4 @@
-#include "../includes/engine.h"
+#include "../includes/c_engine.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -96,7 +96,7 @@ void TopologicalSort(Value *v1, bool *visited, Value **topo, int *index)
 
     for (int i = 0; i < v1->num_prev; ++i)
     {
-        if (!visited[v1->_prev[i]->index])
+        if (v1->_prev[i] && !visited[v1->_prev[i]->index])
         {
             TopologicalSort(v1->_prev[i], visited, topo, index);
         }
@@ -119,7 +119,7 @@ void ValueBackward(Value *v1)
     {
         v1->backward(v1);
     }
-    for (int i = v1->num_prev - 1; i >= 0; --i)
+    for (int i = index - 1; i >= 0; --i)
     {
         ValueBackward(topo[i]);
     }
@@ -165,4 +165,9 @@ Value *ValueReverseDivide(const Value *v1, const Value *v2)
 void ValuePrint(const Value *v1)
 {
     printf("Value(data=%.2f, grad=%.2f)\n", v1->data, v1->grad);
+}
+
+void ValueFree(Value *v1)
+{
+    free(v1);
 }

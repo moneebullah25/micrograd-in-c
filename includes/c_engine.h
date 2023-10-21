@@ -45,6 +45,7 @@ extern "C"
     Value *ValueDivide(const Value *v1, const Value *v2);
     Value *ValueReverseMultiply(const Value *v1, const Value *v2);
     void ValuePrint(const Value *v1);
+    void ValueFree(Value *v1);
 
 #ifdef __cplusplus
 }
